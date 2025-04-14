@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Najnovije vesti iz mobilne telefonije - Premium Oprema</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    .container {
+      width: 80%;
+      margin: 20px auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .article {
+      background-color: #fff;
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .article:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .article h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #2c3e50;
+    }
+
+    .article p {
+      color: #7f8c8d;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .article a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .article a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 50px;
+      font-size: 1.2rem;
+      color: #7f8c8d;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Premium Oprema</h1>
+    <p>Najnovije vesti iz sveta mobilne telefonije</p>
+  </header>
+
+  <div class="container">
+    <h2>Najnovije vesti</h2>
+    <div id="news-section" class="loading">Učitavanje vesti...</div>
+  </div>
+
+  <footer>
+    &copy; 2025 Premium Oprema. Sva prava zadržana.
+  </footer>
+
+  <script>
+    fetch('news.php')
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('news-section');
+        container.innerHTML = '';
+        if (data.results && data.results.length > 0) {
+          data.results.forEach(article => {
+            const div = document.createElement('div');
+            div.className = 'article';
+            div.innerHTML = `
+              <h3>${article.title}</h3>
+              <p>${article.description || 'Nema opisa za ovu vest.'}</p>
+              <a href="${article.link}" target="_blank">Pročitaj više</a>
+            `;
+            container.appendChild(div);
+          });
+        } else {
+          container.innerHTML = 'Nema novih vesti.';
+        }
+      })
+      .catch(error => {
+        document.getElementById('news-section').innerText = 'Došlo je do greške prilikom učitavanja vesti.';
+        console.error(error);
+      });
+  </script>
+</body>
+</html>
